@@ -1,70 +1,82 @@
-# Getting Started with Create React App
+## Disney Clone
+- Clever Programmer - 디지니+ 사이트 클론
+- YouTube : https://www.youtube.com/watch?v=R_OERlafbmw
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### 사용한 도구
+- React, Redux, Firebase, Styled Components
 
-## Available Scripts
 
-In the project directory, you can run:
+### 사용한 라이브러리
+- npm install firebase
+- npm i styled-components
+- npm install react-router-dom@6.2.2
+- npm install @reduxjs/toolkit react-redu
+- 
 
-### `npm start`
+### 참고 사이트 
+- 리덕스 툴킷(공식사이트):[https://redux-toolkit.js.org/tutorials/quick-start]
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 프로젝트를 통해 배운 내용 정리
+1. Styled-commponents 사용
+```
+// 조건부 스타일링
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+const SignOut = styled.div`
 
-### `npm test`
+  ${UserImg} {
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+  }
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2. 리덕스 직렬화 이해하기
+```
+import { configureStore } from "@reduxjs/toolkit";
+import userReducer from "../features/user/userSlice";
+// configureStore 함수는 리덕스 라이브러리의 createStore함수를 추상화한 것이다. 기존의 리덕스 설정을 간편하게 해준다.
 
-### `npm run build`
+export const store = configureStore({
+  reducer: { user: userReducer },
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+  middleware: (getDefaultMiddleware) =>
+    // 액션이 리듀서에 전달되기 전에 미들웨어를 사용하여 함수를 담는다.
+    // 사용할 모든 미들웨어는 배열에 담아서 명시할 수 있다.
+    // getDefaultMiddleware는 기본적인 미들웨어를 설정하는 것이다.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+    getDefaultMiddleware({
+      serializableCheck: false,
+      // js에서 사용하는 데이터 타입은 주로 object 이다. 그런데 다른 언어나 환경에서 사용사는 데이터 타입이 다르기 때문에, 해당 데이터 타입을 변화하는 작업이 필요하다 이를 (serializableCheck) 직렬화라고 한다. 리덕스는 일반적으로 직렬화타입을 저장하지 않기를 권장한다. store의 일관성 유지 및 복원기능 디버깅에서 방해를 받을 수 있기 때문이다.  redux 가 데이터 변화 감지 비교 할 때 shallow-equalty 를 기준으로 작업을 수행하기 때문에, 에러를 동반하는 비동기 값이나, 값이 상황에 따라 변화할 수 있는 데이터 값을 저장했다가는 모든 데이터를 다 덮어 쓰기 때문에 꺼려하는 것이다.참고로 서비스를 운영하는데 non-serializable 타입 데이터를 꼭 store 에 저장해서 공유해야한다면, redux 설정에서 미들웨어 설정 시, serializableCheck 를 false 로 설정하면 된다.
+    }),
+});
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+► 직렬화란?
+ - 예를 들어 localstorage는 값으로 string 가능하지만, object는 불가능하다. 이때 json.stringify를 통해 (object 를 string)으로 바꿀 수 가 있는데, 이것을 직렬화라고 한다. 반대로 json.parse 를 통해 (string 에서 object) 으로 바꿀 수 있다.
 
-### `npm run eject`
+ - 리덕스에서는 function, promise 등과 같은 non-serializable type 은 저장되지만, 표시를 하지 않는다.
+ - 리덕스에서는 직렬화 할수 없는 것을 state, action 값에 넣지 말하야한다.
+ - 하지만, 직렬화 할 수 밖에 없는 데이터를 수락해야 하는 작업의 경우는 아래와 같은 코드를 입력한다. 
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+   middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### 오류해결
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+1. 발생한 오류
+- 이 에러는 리액트 개발에 사용하는 jsx에서 발생하는데 즉, 나의 경우은 <a>태그 안에 <a>태그를 사용한 것이다. 
 
-### Code Splitting
+```
+react-dom.development.js:86 Warning: validateDOMNesting(...): <a> cannot appear as a descendant of <a>.
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+2. 
+```
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```
