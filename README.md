@@ -1,22 +1,26 @@
-## Disney Clone
+# Disney Clone
 - Clever Programmer - 디지니+ 사이트 클론
 - YouTube : https://www.youtube.com/watch?v=R_OERlafbmw
 
-### 사용한 도구
+## 데모
+- [https://disneyplus-clone-8a019.web.app/home]
+
+## 사용한 도구
 - React, Redux, Firebase, Styled Components
 
 
-### 사용한 라이브러리
+## 사용한 라이브러리
 - npm install firebase
 - npm i styled-components
 - npm install react-router-dom@6.2.2
-- npm install @reduxjs/toolkit react-redu
-- 
+- npm install @reduxjs/toolkit react-redux
+- npm i react-slick
+- npm install slick-carousel
 
-### 참고 사이트 
+## 참고 사이트 
 - 리덕스 툴킷(공식사이트):[https://redux-toolkit.js.org/tutorials/quick-start]
 
-### 프로젝트를 통해 배운 내용 정리
+## 프로젝트를 통해 배운 내용 정리
 1. Styled-commponents 사용
 ```
 // 조건부 스타일링
@@ -67,16 +71,12 @@ export const store = configureStore({
 
 
 
-### 오류해결
+## 오류해결
 
-1. 발생한 오류
-- 이 에러는 리액트 개발에 사용하는 jsx에서 발생하는데 즉, 나의 경우은 <a>태그 안에 <a>태그를 사용한 것이다. 
 
 ```
 react-dom.development.js:86 Warning: validateDOMNesting(...): <a> cannot appear as a descendant of <a>.
 ```
+- 이 에러는 리액트 개발에 사용하는 jsx에서 발생하는데 즉, 나의 경우은 <a>태그 안에 <a>태그를 사용한 것이다. 
 
-2. 
-```
-
-```
+ 
